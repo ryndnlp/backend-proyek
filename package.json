@@ -1,0 +1,29 @@
+{
+  "name": "backend-proyek",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "joi": "^17.5.0",
+    "joi-objectid": "^4.0.2",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.1.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryndnlp/backend-proyek.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryndnlp/backend-proyek/issues"
+  },
+  "homepage": "https://github.com/ryndnlp/backend-proyek#readme"
+}

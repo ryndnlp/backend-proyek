@@ -1,34 +1,39 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const { Schema, model } = require("mongoose");
 
-const coordinteSchema = new Schema({
-  latitude: {
-    type: Number,
-    required: true,
+const coordinteSchema = new Schema(
+  {
+    latitude: {
+      type: Number,
+      required: true,
+    },
+    longitude: {
+      type: Number,
+      required: true,
+    },
   },
-  longitude: {
-    type: Number,
-    required: true,
-  },
-});
+  { _id: false }
+);
 
-const addressSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const addressSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    detail: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+    },
+    coodinates: {
+      type: coordinteSchema,
+      required: true,
+    },
   },
-  detail: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-  },
-  coodinates: {
-    type: coordinteSchema,
-    required: true,
-  },
-});
+  { _id: false }
+);
 
 const UserDetailsSchema = new Schema(
   {
@@ -54,6 +59,6 @@ const UserDetailsSchema = new Schema(
   { versionKey: false, strict: true }
 );
 
-const UserDetails = mongoose.model("UserDetails", UserDetailsSchema);
+const UserDetails = model("UserDetails", UserDetailsSchema);
 
 module.exports = UserDetails;

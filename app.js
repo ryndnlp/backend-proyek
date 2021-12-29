@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
 const authRoutes = require("./routes/authRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 app.disable("etag"); // Disable 301 error
 app.use(cors());
@@ -30,6 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use("/auth", authRoutes);
+app.use("/order", orderRoutes);
 
 // app.use(express.static(path.join(__dirname, "/build"))); // Serve the static files from the React app
 // app.get("/*", function (req, res) {

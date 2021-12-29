@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const { Schema, model } = require("mongoose");
 
 const UserVerifiedSchema = new Schema(
   {
@@ -12,6 +11,6 @@ const UserVerifiedSchema = new Schema(
   { versionKey: false, strict: true }
 );
 
-const UserVerified = mongoose.model("UserVerified", UserVerifiedSchema);
+const UserVerified = model("UserVerified", UserVerifiedSchema);
 
 module.exports = UserVerified;

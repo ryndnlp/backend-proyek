@@ -1,3 +1,5 @@
+const isEmpty = require("lodash/isEmpty");
+
 const User = require("../models/User");
 const UserVerified = require("../models/UserVerified");
 const {
@@ -5,7 +7,6 @@ const {
   loginSchema,
   verifySchema,
 } = require("../schemas/authSchemas");
-const isEmpty = require("lodash/isEmpty");
 
 const register = async (req, res) => {
   try {
