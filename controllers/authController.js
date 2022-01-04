@@ -122,4 +122,21 @@ const verify = async (req, res) => {
   }
 };
 
-module.exports = { register, login, verify };
+const listPetugas = async (req, res) => {
+  try {
+    const result = await User.find({ type: "PETUGAS" });
+    const response = {
+      code: 200,
+      data: result,
+    };
+    res.json(response);
+  } catch (err) {
+    const response = {
+      code: 400,
+      error: err,
+    };
+    res.status(400).json(response);
+  }
+};
+
+module.exports = { register, login, verify, listPetugas };

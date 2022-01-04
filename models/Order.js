@@ -45,7 +45,8 @@ const TrashDetailSchema = new Schema(
     },
     category: {
       type: Number,
-      requried: true,
+      enum: [0, 1, 2, 3, 4, 5, 6],
+      required: true,
     },
   },
   { _id: false }
@@ -55,6 +56,7 @@ const OrderSchema = new Schema(
   {
     orderStatus: {
       type: String,
+      enum: ["UNASSIGNED", "UPCOMING", "ONGOING", "FINISH"],
       required: true,
     },
     paymentStatus: {
@@ -78,6 +80,20 @@ const OrderSchema = new Schema(
     ],
     price: {
       type: Number,
+      required: true,
+    },
+    orderDate: {
+      type: Date,
+      required: true,
+    },
+    petugasId: {
+      type: ObjectId,
+      ref: "User",
+      required: true,
+    },
+    timeCategory: {
+      type: Number,
+      enum: [1, 2, 3],
       required: true,
     },
   },

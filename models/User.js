@@ -20,6 +20,11 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+      enum: ["ADMIN", "PETUGAS", "MEMBER"],
+      required: true,
+    },
   },
   { versionKey: false, strict: true }
 );

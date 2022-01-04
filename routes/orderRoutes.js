@@ -8,6 +8,7 @@ const {
 
 router.post("/", createOrder);
 router.get("/", listOrder);
-router.get("/:id", detailOrder);
+router.get("/:orderId", detailOrder);
+router.put("/:orderId", assignOrder);
 
 module.exports = router;
