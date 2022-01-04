@@ -21,6 +21,10 @@ const AddressSchema = new Schema(
       type: String,
       required: true,
     },
+    detail: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
       required: true,
@@ -66,10 +70,12 @@ const OrderSchema = new Schema(
       type: AddressSchema,
       required: true,
     },
-    trashDetail: {
-      type: TrashDetailSchema,
-      required: true,
-    },
+    trashDetail: [
+      {
+        type: TrashDetailSchema,
+        required: true,
+      },
+    ],
     price: {
       type: Number,
       required: true,

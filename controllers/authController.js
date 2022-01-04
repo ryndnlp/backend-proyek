@@ -39,7 +39,7 @@ const register = async (req, res) => {
     if (!isVerified) {
       const err = {
         name: "UserNotVerified",
-        message: "User has not been verivied",
+        message: "User has not been verified",
       };
       throw err;
     }

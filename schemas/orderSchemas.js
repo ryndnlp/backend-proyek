@@ -3,13 +3,14 @@ const Joi = require("joi");
 const coordinateSchema = Joi.object({
   latitude: Joi.number().required(),
   longitude: Joi.number().required(),
-});
+}).required();
 
 const addressSchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string().required(),
+  detail: Joi.string().required(),
   coordinate: coordinateSchema,
-});
+}).required();
 
 const trashDetailSchema = Joi.object({
   type: Joi.string().required(),
@@ -19,7 +20,7 @@ const trashDetailSchema = Joi.object({
 const createOrderSchema = Joi.object({
   userId: Joi.string().required(),
   address: addressSchema,
-  trashDetail: trashDetailSchema,
+  trashDetail: Joi.array().items(trashDetailSchema).required().min(1),
   price: Joi.number().required(),
 });
 
