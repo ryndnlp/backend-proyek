@@ -86,7 +86,12 @@ const detailOrder = async (req, res) => {
 
 const assignOrder = async (req, res) => {
   try {
-    const { error, value } = assignOrderSchema.validate(req.body);
+    const args = {
+      orderId: req.params.orderId,
+      ...req.body,
+    };
+    console.log(args);
+    const { error, value } = assignOrderSchema.validate(args);
     if (error) {
       const err = { name: error.name, ...error.details[0] };
       throw err;
@@ -94,6 +99,7 @@ const assignOrder = async (req, res) => {
 
     const { orderId, petugasId, orderDate, timeCategory } = value;
     const order = await Order.findOne({ _id: ObjectId(orderId) });
+
     if (isEmpty(order)) {
       const err = {
         name: "OrderNotExists",
@@ -114,9 +120,10 @@ const assignOrder = async (req, res) => {
       throw err;
     }
 
-    const result = await Order.updateOne(
+    const result = await Order.findOneAndUpdate(
       { _id: orderId },
-      { $set: { orderDate, timeCategory, petugasId } }
+      { $set: { orderDate, timeCategory, petugasId, orderStatus: "UPCOMING" } },
+      { returnOriginal: false }
     );
 
     const response = {

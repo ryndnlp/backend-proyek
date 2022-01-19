@@ -4,11 +4,12 @@ const {
   createOrder,
   listOrder,
   detailOrder,
+  assignOrder,
 } = require("../controllers/orderController");
 
 router.post("/", createOrder);
 router.get("/", listOrder);
 router.get("/:orderId", detailOrder);
-router.put("/:orderId", assignOrder);
+router.post("/:orderId/assign", assignOrder);
 
 module.exports = router;
