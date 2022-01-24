@@ -8,7 +8,7 @@ const listOrderSchema = Joi.object({
     "FINISH"
   ),
   orderDate: Joi.date(),
-}).min(1);
+});
 
 const assignOrderSchema = Joi.object({
   orderId: Joi.string().length(24).required(),

@@ -59,11 +59,11 @@ const OrderSchema = new Schema(
       enum: ["UNASSIGNED", "UPCOMING", "ONGOING", "FINISH"],
       required: true,
     },
-    paymentStatus: {
-      type: Boolean,
+    paidAmount: {
+      type: Number,
       required: true,
     },
-    userId: {
+    memberId: {
       type: ObjectId,
       ref: "User",
       required: true,

@@ -18,9 +18,9 @@ const createOrder = async (req, res) => {
 
     const result = await Order.create({
       ...value,
-      userId: ObjectId(req.cookies.authCookie),
+      memberId: ObjectId(req.cookies.authCookie),
       orderStatus: "UNASSIGNED",
-      paymentStatus: false,
+      paidAmount: 0,
     });
     const response = {
       code: 200,
@@ -46,7 +46,7 @@ const listOrder = async (req, res) => {
 
     const result = await Order.find({
       ...value,
-      userId: ObjectId(req.cookies.authCookie),
+      memberId: ObjectId(req.cookies.authCookie),
     });
     const response = {
       code: 200,
@@ -72,7 +72,7 @@ const detailOrder = async (req, res) => {
 
     const result = await Order.findOne({
       _id: ObjectId(value.orderId),
-      userId: ObjectId(req.cookies.authCookie),
+      memberId: ObjectId(req.cookies.authCookie),
     });
     const response = {
       code: 200,
