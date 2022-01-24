@@ -84,17 +84,14 @@ const OrderSchema = new Schema(
     },
     orderDate: {
       type: Date,
-      required: true,
     },
     petugasId: {
       type: ObjectId,
       ref: "User",
-      required: true,
     },
     timeCategory: {
       type: Number,
       enum: [1, 2, 3],
-      required: true,
     },
   },
   { versionKey: false, strict: true }

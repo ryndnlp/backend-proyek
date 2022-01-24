@@ -16,7 +16,7 @@ const register = async (req, res) => {
       throw err;
     }
 
-    const { username, phone, ...args } = value;
+    const { username, phone, key, ...args } = value;
     const isUserNameExists = await User.exists({ username });
     if (isUserNameExists) {
       const err = {
@@ -44,7 +44,26 @@ const register = async (req, res) => {
       throw err;
     }
 
-    const result = await User.create({ username, phone, ...args });
+    let type;
+    switch (key) {
+      case "IniKunciPetugas":
+        type = "PETUGAS";
+        break;
+      case "IniKunciAdmin":
+        type = "ADMIN";
+        break;
+      case "IniKunciMember":
+        type = "MEMBER";
+        break;
+      default:
+        const err = {
+          name: "Invalid key",
+          message: "Key is not recognized",
+        };
+        throw err;
+    }
+
+    const result = await User.create({ username, phone, type, ...args });
     const response = {
       code: 200,
       data: result,
@@ -122,21 +141,4 @@ const verify = async (req, res) => {
   }
 };
 
-const listPetugas = async (req, res) => {
-  try {
-    const result = await User.find({ type: "PETUGAS" });
-    const response = {
-      code: 200,
-      data: result,
-    };
-    res.json(response);
-  } catch (err) {
-    const response = {
-      code: 400,
-      error: err,
-    };
-    res.status(400).json(response);
-  }
-};
-
-module.exports = { register, login, verify, listPetugas };
+module.exports = { register, login, verify };

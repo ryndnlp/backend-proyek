@@ -3,9 +3,9 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
-const authRoutes = require("./routes/authRoutes");
-const orderRoutes = require("./routes/orderRoutes");
+const routes = require("./routes");
 
 app.disable("etag"); // Disable 301 error
 app.use(cors());
@@ -30,11 +30,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.use("/auth", authRoutes);
-app.use("/order", orderRoutes);
+// parse cookie
+app.use(cookieParser());
 
-// app.use(express.static(path.join(__dirname, "/build"))); // Serve the static files from the React app
-// app.get("/*", function (req, res) {
-//   //Handle routing server side
-//   res.sendFile(path.join(__dirname, "/build/index.html"));
-// });
+// setup router
+app.use(routes);
