@@ -1,15 +1,12 @@
-const isEmpty = require("lodash/isEmpty");
 const { ObjectId } = require("mongodb");
 
 const Order = require("../../models/Order");
-const User = require("../../models/User");
 
 const {
   createOrderSchema,
   listOrderSchema,
   detailOrderSchema,
-  assignOrderSchema,
-} = require("../../schemas/admin/orderSchemas");
+} = require("../../schemas/member/orderSchemas");
 
 const createOrder = async (req, res) => {
   try {
@@ -21,6 +18,7 @@ const createOrder = async (req, res) => {
 
     const result = await Order.create({
       ...value,
+      userId: ObjectId(req.cookies.authCookie),
       orderStatus: "UNASSIGNED",
       paymentStatus: false,
     });
@@ -46,7 +44,10 @@ const listOrder = async (req, res) => {
       throw err;
     }
 
-    const result = await Order.find({ ...value });
+    const result = await Order.find({
+      ...value,
+      userId: ObjectId(req.cookies.authCookie),
+    });
     const response = {
       code: 200,
       data: result,
@@ -69,7 +70,10 @@ const detailOrder = async (req, res) => {
       throw err;
     }
 
-    const result = await Order.findOne({ _id: ObjectId(value.orderId) });
+    const result = await Order.findOne({
+      _id: ObjectId(value.orderId),
+      userId: ObjectId(req.cookies.authCookie),
+    });
     const response = {
       code: 200,
       data: result,

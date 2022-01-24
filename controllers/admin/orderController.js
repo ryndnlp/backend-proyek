@@ -5,9 +5,7 @@ const Order = require("../../models/Order");
 const User = require("../../models/User");
 
 const {
-  createOrderSchema,
   listOrderSchema,
-  detailOrderSchema,
   assignOrderSchema,
 } = require("../../schemas/admin/orderSchemas");
 
@@ -74,7 +72,6 @@ const listOrder = async (req, res) => {
       const err = { name: error.name, ...error.details[0] };
       throw err;
     }
-    console.log(value);
     const result = await Order.find({ ...value });
     const response = {
       code: 200,

@@ -18,36 +18,26 @@ const trashDetailSchema = Joi.object({
 });
 
 const createOrderSchema = Joi.object({
-  userId: Joi.string().required(),
   address: addressSchema,
   trashDetail: Joi.array().items(trashDetailSchema).required().min(1),
   price: Joi.number().required(),
 });
 
 const listOrderSchema = Joi.object({
-  userId: Joi.string().length(24),
   orderStatus: Joi.string().valid(
     "UNASSIGNED",
     "UPCOMING",
     "ONGOING",
     "FINISH"
   ),
-}).min(1);
+});
 
 const detailOrderSchema = Joi.object({
   orderId: Joi.string().length(24).required(),
-});
-
-const assignOrderSchema = Joi.object({
-  orderId: Joi.string().length(24).required(),
-  orderDate: Joi.date().required(),
-  petugasId: Joi.string().length(24).required(),
-  timeCategory: Joi.number().required(),
 });
 
 module.exports = {
   createOrderSchema,
   listOrderSchema,
   detailOrderSchema,
-  assignOrderSchema,
 };
