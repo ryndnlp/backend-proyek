@@ -1,5 +1,40 @@
 const { Schema, model } = require("mongoose");
 
+const coordinate = new Schema(
+  {
+    latitude: {
+      type: Number,
+      required: true,
+    },
+    longitude: {
+      type: Number,
+      required: true,
+    },
+  },
+  { _id: false }
+);
+
+const addressSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    detail: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+    },
+    coordinate: {
+      type: coordinate,
+      required: true,
+    },
+  },
+  { _id: false }
+);
+
 const UserSchema = new Schema(
   {
     username: {
@@ -25,6 +60,7 @@ const UserSchema = new Schema(
       enum: ["ADMIN", "PETUGAS", "MEMBER"],
       required: true,
     },
+    address: [{ type: addressSchema }],
   },
   { versionKey: false, strict: true }
 );

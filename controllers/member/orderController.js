@@ -1,6 +1,7 @@
 const { ObjectId } = require("mongodb");
 
 const Order = require("../../models/Order");
+const User = require("../../models/User");
 
 const {
   createOrderSchema,
@@ -15,10 +16,16 @@ const createOrder = async (req, res) => {
       const err = { name: error.name, ...error.details[0] };
       throw err;
     }
-
+    const memberId = ObjectId(req.cookies.authCookie);
+    const member = await User.findOne({ _id: memberId }).select(
+      "fullName phone -_id"
+    );
+    const { fullName: memberName, phone: memberPhone } = member;
     const result = await Order.create({
       ...value,
-      memberId: ObjectId(req.cookies.authCookie),
+      memberId,
+      memberName,
+      memberPhone,
       orderStatus: "UNASSIGNED",
       paidAmount: 0,
     });

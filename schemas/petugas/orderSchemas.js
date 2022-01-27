@@ -7,7 +7,8 @@ const listOrderSchema = Joi.object({
     "ONGOING",
     "FINISH"
   ),
-}).min(1);
+  orderDate: Joi.date(),
+});
 
 const updateOrderStatusSchema = Joi.object({
   orderId: Joi.string().length(24).required(),

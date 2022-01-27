@@ -33,7 +33,7 @@ const assignOrder = async (req, res) => {
       throw err;
     }
 
-    const petugas = User.findOne({
+    const petugas = await User.findOne({
       _id: ObjectId(petugasId),
       type: "PETUGAS",
     });
@@ -45,9 +45,19 @@ const assignOrder = async (req, res) => {
       throw err;
     }
 
+    const { fullName: petugasName, phone: petugasPhone } = petugas;
     const result = await Order.findOneAndUpdate(
       { _id: orderId },
-      { $set: { orderDate, timeCategory, petugasId, orderStatus: "UPCOMING" } },
+      {
+        $set: {
+          orderDate,
+          timeCategory,
+          petugasId,
+          orderStatus: "UPCOMING",
+          petugasName,
+          petugasPhone,
+        },
+      },
       { returnOriginal: false }
     );
 

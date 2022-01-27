@@ -93,6 +93,20 @@ const OrderSchema = new Schema(
       type: Number,
       enum: [1, 2, 3],
     },
+    petugasName: {
+      type: String,
+    },
+    memberName: {
+      type: String,
+      required: true,
+    },
+    petugasPhone: {
+      type: String,
+    },
+    memberPhone: {
+      type: String,
+      required: true,
+    },
   },
   { versionKey: false, strict: true }
 );

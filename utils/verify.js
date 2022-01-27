@@ -75,4 +75,25 @@ const verifyPetugas = async (req, res, next) => {
   next();
 };
 
-module.exports = { verifyMember, verifyAdmin, verifyPetugas };
+const verifyAll = async (req, res, next) => {
+  const cookie =
+    req.cookies.authCookie && req.cookies.authCookie.length == 24
+      ? req.cookies.authCookie
+      : undefined;
+
+  const user = await User.exists({ _id: ObjectId(cookie) });
+  if (!user) {
+    const err = {
+      code: 401,
+      err: {
+        name: "NotAllowed",
+        message: "You don't have permission",
+      },
+    };
+    res.status(401).json(err);
+    return;
+  }
+  next();
+};
+
+module.exports = { verifyMember, verifyAdmin, verifyPetugas, verifyAll };
