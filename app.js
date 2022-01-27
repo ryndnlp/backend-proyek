@@ -34,4 +34,13 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // setup router
+
+app.get("/", async (req, res) => {
+  res.status(200).json("Hello World!");
+});
+
 app.use(routes);
+
+app.get("*", async (req, res) => {
+  res.status(404).json("Error 404");
+});
