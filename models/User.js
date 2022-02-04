@@ -61,6 +61,9 @@ const UserSchema = new Schema(
       required: true,
     },
     address: [{ type: addressSchema }],
+    point: {
+      type: Number,
+    },
   },
   { versionKey: false, strict: true }
 );

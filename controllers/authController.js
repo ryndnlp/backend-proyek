@@ -63,7 +63,11 @@ const register = async (req, res) => {
         throw err;
     }
 
-    const result = await User.create({ username, phone, type, ...args });
+    const userObj = { username, phone, type, ...args };
+    if (type === "MEMBER") {
+      userObj.point = 0;
+    }
+    const result = await User.create(userObj);
     const response = {
       code: 200,
       data: result,

@@ -107,6 +107,10 @@ const OrderSchema = new Schema(
       type: String,
       required: true,
     },
+    laporanId: {
+      type: ObjectId,
+      ref: "DailyReport",
+    },
   },
   { versionKey: false, strict: true }
 );

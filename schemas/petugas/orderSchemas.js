@@ -20,8 +20,13 @@ const updatePaidAmountSchema = Joi.object({
   paidAmount: Joi.number().required(),
 });
 
+const confirmPaymentSchema = Joi.object({
+  orderId: Joi.string().length(24).required(),
+});
+
 module.exports = {
   listOrderSchema,
   updateOrderStatusSchema,
   updatePaidAmountSchema,
+  confirmPaymentSchema,
 };
