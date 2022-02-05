@@ -1,6 +1,7 @@
 const { ObjectId } = require("mongodb");
 
 const Order = require("../../models/Order");
+const User = require("../../models/User");
 
 const {
   listOrderSchema,
@@ -136,7 +137,7 @@ const confirmPayment = async (req, res) => {
     }
     const { orderId } = value;
     const { paidAmount, price } = await Order.findOne({ _id: orderId }).select(
-      "paidAmount price -_id"
+      "paidAmount price memberId -_id"
     );
 
     if (paidAmount === price) {
@@ -146,6 +147,12 @@ const confirmPayment = async (req, res) => {
       };
       throw err;
     }
+
+    await User.findOneAndUpdate(
+      { _id: ObjectId(memberId) },
+      { $set: { point: Math.floor(price / 10) } },
+      { returnOriginal: false }
+    );
 
     const result = await Order.findOneAndUpdate(
       { _id: orderId },

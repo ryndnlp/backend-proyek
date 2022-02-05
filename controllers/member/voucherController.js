@@ -67,7 +67,7 @@ const buyVoucher = async (req, res) => {
   }
 };
 
-const listVoucher = async (req, res) => {
+const listUserVoucher = async (req, res) => {
   try {
     const userId = req.cookies.authCookie;
 
@@ -133,4 +133,21 @@ const applyVoucher = async (req, res) => {
   }
 };
 
-module.exports = { buyVoucher, listVoucher, applyVoucher };
+const listVoucher = async (req, res) => {
+  try {
+    const result = await Voucher.find({});
+    const response = {
+      code: 200,
+      data: result,
+    };
+    res.json(response);
+  } catch (err) {
+    const response = {
+      code: 400,
+      error: err,
+    };
+    res.status(400).json(response);
+  }
+};
+
+module.exports = { buyVoucher, listUserVoucher, applyVoucher, listVoucher };

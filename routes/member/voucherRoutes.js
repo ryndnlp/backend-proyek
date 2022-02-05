@@ -1,13 +1,15 @@
 const express = require("express");
 const {
   buyVoucher,
-  listVoucher,
+  listUserVoucher,
   applyVoucher,
+  listVoucher,
 } = require("../../controllers/member/voucherController");
 const router = express.Router();
 
 router.post("/:voucherId/buy", buyVoucher);
-router.get("/", listVoucher);
+router.get("/me", listUserVoucher);
 router.post("/:userVoucherId/apply", applyVoucher);
+router.get("/", listVoucher);
 
 module.exports = router;
