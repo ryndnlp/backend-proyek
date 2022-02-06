@@ -136,9 +136,9 @@ const confirmPayment = async (req, res) => {
       throw err;
     }
     const { orderId } = value;
-    const { paidAmount, price } = await Order.findOne({ _id: orderId }).select(
-      "paidAmount price memberId -_id"
-    );
+    const { paidAmount, price, memberId } = await Order.findOne({
+      _id: orderId,
+    }).select("paidAmount price memberId -_id");
 
     if (paidAmount === price) {
       const err = {
@@ -148,9 +148,13 @@ const confirmPayment = async (req, res) => {
       throw err;
     }
 
+    const { point: currentPoint } = await User.findOne({
+      _id: memberId,
+    }).select("point -_id");
+
     await User.findOneAndUpdate(
       { _id: ObjectId(memberId) },
-      { $set: { point: Math.floor(price / 10) } },
+      { $set: { point: currentPoint + Math.floor(price / 10) } },
       { returnOriginal: false }
     );
 
