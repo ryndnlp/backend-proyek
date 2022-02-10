@@ -7,6 +7,14 @@ const cookieParser = require("cookie-parser");
 
 const routes = require("./routes");
 
+const admin = require("firebase-admin");
+
+const serviceAccount = require("./firebase/credential/admin-credential.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
 app.disable("etag"); // Disable 301 error
 app.use(cors());
 
