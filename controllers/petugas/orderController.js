@@ -4,6 +4,8 @@ const Order = require("../../models/Order");
 const User = require("../../models/User");
 const Notification = require("../../models/Notification");
 
+const moment = require("moment");
+
 const {
   listOrderSchema,
   updateOrderStatusSchema,
@@ -16,6 +18,7 @@ const {
   PETUGAS_ARRIVED,
 } = require("../../template/notification");
 const { sendNotification } = require("../../utils/notifications");
+const { templateFunc } = require("../../utils/template");
 
 const listOrder = async (req, res) => {
   try {
@@ -73,6 +76,7 @@ const updateOrderStatus = async (req, res) => {
 
     const {
       memberId: { deviceToken },
+      orderDate,
     } = await Order.findOne({
       _id: orderId,
     }).populate("memberId");
@@ -97,12 +101,13 @@ const updateOrderStatus = async (req, res) => {
 
         sendNotification(
           PETUGAS_STARTED.title,
-          PETUGAS_STARTED.body,
+          templateFunc(PETUGAS_STARTED.body, {
+            orderDate: moment(orderDate).format("dddd, DD MMMM YYYY"),
+          }),
           "PETUGAS_STARTED",
           deviceToken,
           { orderId }
         );
-
         break;
       }
       case "FINISH": {
@@ -121,7 +126,6 @@ const updateOrderStatus = async (req, res) => {
           deviceToken,
           { orderId }
         );
-
         break;
       }
     }

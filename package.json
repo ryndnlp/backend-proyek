@@ -12,6 +12,7 @@
     "joi": "^17.5.0",
     "joi-objectid": "^4.0.2",
     "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "mongoose": "^6.1.4"
   },
   "devDependencies": {},

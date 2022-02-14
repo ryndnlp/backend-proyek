@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const moment = require("moment");
 
 const routes = require("./routes");
 
@@ -17,6 +18,8 @@ admin.initializeApp({
 
 app.disable("etag"); // Disable 301 error
 app.use(cors());
+
+moment.locale("id");
 
 const dbUrl =
   "mongodb+srv://admin:k30Jh4nWrlo1rlnV@cluster0.b7v08.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
