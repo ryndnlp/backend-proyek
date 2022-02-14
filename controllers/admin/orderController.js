@@ -1,6 +1,7 @@
 const isEmpty = require("lodash/isEmpty");
 const { ObjectId } = require("mongodb");
 
+const Notification = require("../../models/Notification");
 const Order = require("../../models/Order");
 const User = require("../../models/User");
 
@@ -8,6 +9,8 @@ const {
   listOrderSchema,
   assignOrderSchema,
 } = require("../../schemas/admin/orderSchemas");
+const { sendNotification } = require("../../utils/notifications");
+const { NEW_ORDER } = require("../../template/notification");
 
 const assignOrder = async (req, res) => {
   try {
@@ -23,7 +26,9 @@ const assignOrder = async (req, res) => {
     }
 
     const { orderId, petugasId, orderDate, timeCategory } = value;
-    const order = await Order.findOne({ _id: ObjectId(orderId) });
+    const order = await Order.findOne({ _id: ObjectId(orderId) }).populate(
+      "memberId"
+    );
 
     if (isEmpty(order)) {
       const err = {
@@ -59,6 +64,24 @@ const assignOrder = async (req, res) => {
         },
       },
       { returnOriginal: false }
+    );
+
+    const notification = {
+      type: "NEW_ORDER",
+      orderId,
+      userId: petugasId,
+    };
+
+    await Notification.create(notification);
+
+    sendNotification(
+      NEW_ORDER.title,
+      NEW_ORDER.body,
+      "NEW_ORDER",
+      order.memberId.deviceToken,
+      {
+        orderId,
+      }
     );
 
     const response = {

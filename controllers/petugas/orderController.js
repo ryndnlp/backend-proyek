@@ -2,6 +2,7 @@ const { ObjectId } = require("mongodb");
 
 const Order = require("../../models/Order");
 const User = require("../../models/User");
+const Notification = require("../../models/Notification");
 
 const {
   listOrderSchema,
@@ -9,6 +10,12 @@ const {
   updatePaidAmountSchema,
   confirmPaymentSchema,
 } = require("../../schemas/petugas/orderSchemas");
+const {
+  PAYMENT_COMPLETE,
+  PETUGAS_STARTED,
+  PETUGAS_ARRIVED,
+} = require("../../template/notification");
+const { sendNotification } = require("../../utils/notifications");
 
 const listOrder = async (req, res) => {
   try {
@@ -49,10 +56,11 @@ const updateOrderStatus = async (req, res) => {
     }
 
     const { orderId, orderStatus } = value;
+    const petugasId = req.cookies.authCookie;
 
     const isOrderExists = await Order.exists({
       _id: orderId,
-      petugasId: req.cookies.authCookie,
+      petugasId,
     });
 
     if (!isOrderExists) {
@@ -63,11 +71,61 @@ const updateOrderStatus = async (req, res) => {
       throw err;
     }
 
+    const {
+      memberId: { deviceToken },
+    } = await Order.findOne({
+      _id: orderId,
+    }).populate("memberId");
+
     const result = await Order.findOneAndUpdate(
-      { _id: orderId, petugasId: req.cookies.authCookie },
+      { _id: orderId, petugasId },
       { $set: { orderStatus } },
       { returnOriginal: false }
     );
+
+    let notification;
+
+    switch (orderStatus) {
+      case "ONGOING": {
+        notification = {
+          type: "PETUGAS_STARTED",
+          orderId,
+          userId: result.memberId,
+        };
+
+        await Notification.create(notification);
+
+        sendNotification(
+          PETUGAS_STARTED.title,
+          PETUGAS_STARTED.body,
+          "PETUGAS_STARTED",
+          deviceToken,
+          { orderId }
+        );
+
+        break;
+      }
+      case "FINISH": {
+        notification = {
+          type: "PETUGAS_ARRIVED",
+          orderId,
+          userId: result.memberId,
+        };
+
+        await Notification.create(notification);
+
+        sendNotification(
+          PETUGAS_ARRIVED.title,
+          PETUGAS_ARRIVED.body,
+          "PETUGAS_ARRIVED",
+          deviceToken,
+          { orderId }
+        );
+
+        break;
+      }
+    }
+
     const response = {
       code: 200,
       data: result,
@@ -136,9 +194,26 @@ const confirmPayment = async (req, res) => {
       throw err;
     }
     const { orderId } = value;
-    const { paidAmount, price, memberId } = await Order.findOne({
+
+    const isOrderExists = await Order.exists({
       _id: orderId,
-    }).select("paidAmount price memberId -_id");
+    });
+
+    if (!isOrderExists) {
+      const err = {
+        name: "OrderNotExists",
+        message: "Order is not exists",
+      };
+      throw err;
+    }
+
+    const {
+      paidAmount,
+      price,
+      memberId: { _id: memberId, deviceToken },
+    } = await Order.findOne({
+      _id: orderId,
+    }).populate("memberId");
 
     if (paidAmount === price) {
       const err = {
@@ -163,6 +238,22 @@ const confirmPayment = async (req, res) => {
       { $set: { paidAmount: price } },
       { returnOriginal: false }
     );
+
+    const notification = {
+      type: "PAYMENT_COMPLETE",
+      userId: memberId,
+    };
+
+    await Notification.create(notification);
+
+    sendNotification(
+      PAYMENT_COMPLETE.title,
+      PAYMENT_COMPLETE.body,
+      "PAYMENT_COMPLETE",
+      deviceToken,
+      { orderId }
+    );
+
     const response = {
       code: 200,
       data: result,

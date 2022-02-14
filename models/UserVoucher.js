@@ -18,7 +18,11 @@ const UserVoucherSchema = new Schema(
       required: true,
     },
   },
-  { versionKey: false, strict: true }
+  {
+    versionKey: false,
+    strict: true,
+    timestamps: { createdAt: "purchasedAt", updatedAt: false },
+  }
 );
 
 const UserVoucher = model("UserVoucher", UserVoucherSchema);

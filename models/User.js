@@ -64,6 +64,12 @@ const UserSchema = new Schema(
     point: {
       type: Number,
     },
+    deviceToken: {
+      type: String,
+    },
+    email: {
+      type: String,
+    },
   },
   { versionKey: false, strict: true }
 );
