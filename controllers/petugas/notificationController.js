@@ -5,6 +5,10 @@ const {
   listNotificationByMemberSchema,
 } = require("../../schemas/petugas/notificationSchemas");
 
+const NOTIFICATION = require("../../template/notification");
+
+const { templateFunc } = require("../../utils/template");
+
 const listNotificationByMember = async (req, res) => {
   try {
     const args = {
@@ -15,9 +19,22 @@ const listNotificationByMember = async (req, res) => {
       const err = { name: error.name, ...error.details[0] };
       throw err;
     }
-    const result = await Notification.find({
+
+    let result = await Notification.find({
       userId: ObjectId(value.userId),
     });
+
+    result = result.map((res) => ({
+      ...res.toObject(),
+      title:
+        res.type === "PETUGAS_STARTED"
+          ? templateFunc(PETUGAS_STARTED.body, {
+              orderDate: moment(orderDate).format("dddd, DD MMMM YYYY"),
+            })
+          : NOTIFICATION[res.type].title,
+      body: NOTIFICATION[res.type].body,
+    }));
+
     const response = {
       code: 200,
       data: result,

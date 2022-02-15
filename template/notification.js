@@ -18,9 +18,17 @@ const NEW_ORDER = {
   body: "Anda telah ditugaskan untuk mengambil pesanan baru. Klik untuk melihat detail",
 };
 
+const NOTIFICATION = {
+  PETUGAS_ARRIVED,
+  PETUGAS_STARTED,
+  PAYMENT_COMPLETE,
+  NEW_ORDER,
+};
+
 module.exports = {
   PETUGAS_STARTED,
   PETUGAS_ARRIVED,
   PAYMENT_COMPLETE,
   NEW_ORDER,
+  NOTIFICATION,
 };

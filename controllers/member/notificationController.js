@@ -2,11 +2,26 @@ const { ObjectId } = require("mongodb");
 
 const Notification = require("../../models/Notification");
 
+const NOTIFICATION = require("../../template/notification");
+const { templateFunc } = require("../../utils/template");
+
 const listUserNotification = async (req, res) => {
   try {
-    const result = await Notification.find({
+    let result = await Notification.find({
       userId: ObjectId(req.cookies.authCookie),
     });
+
+    result = result.map((res) => ({
+      ...res.toObject(),
+      title:
+        res.type === "PETUGAS_STARTED"
+          ? templateFunc(PETUGAS_STARTED.body, {
+              orderDate: moment(orderDate).format("dddd, DD MMMM YYYY"),
+            })
+          : NOTIFICATION[res.type].title,
+      body: NOTIFICATION[res.type].body,
+    }));
+
     const response = {
       code: 200,
       data: result,
