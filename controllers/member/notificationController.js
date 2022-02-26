@@ -4,6 +4,7 @@ const Notification = require("../../models/Notification");
 
 const NOTIFICATION = require("../../template/notification");
 const { templateFunc } = require("../../utils/template");
+const moment = require("moment");
 
 const listUserNotification = async (req, res) => {
   try {
@@ -13,13 +14,13 @@ const listUserNotification = async (req, res) => {
 
     result = result.map((res) => ({
       ...res.toObject(),
-      title:
+      title: NOTIFICATION[res.type].title,
+      body:
         res.type === "PETUGAS_STARTED"
-          ? templateFunc(PETUGAS_STARTED.body, {
-              orderDate: moment(orderDate).format("dddd, DD MMMM YYYY"),
+          ? templateFunc(NOTIFICATION[res.type].body, {
+              orderDate: moment(res.createdAt).format("dddd, DD MMMM YYYY"),
             })
-          : NOTIFICATION[res.type].title,
-      body: NOTIFICATION[res.type].body,
+          : NOTIFICATION[res.type].body,
     }));
 
     const response = {

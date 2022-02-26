@@ -78,7 +78,7 @@ const assignOrder = async (req, res) => {
       NEW_ORDER.title,
       NEW_ORDER.body,
       "NEW_ORDER",
-      order.memberId.deviceToken,
+      petugas.deviceToken,
       {
         orderId,
       }

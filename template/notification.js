@@ -14,7 +14,7 @@ const PAYMENT_COMPLETE = {
 };
 
 const NEW_ORDER = {
-  title: "Anda mendapat pesan baru!",
+  title: "Anda mendapat pesanan baru!",
   body: "Anda telah ditugaskan untuk mengambil pesanan baru. Klik untuk melihat detail",
 };
 
