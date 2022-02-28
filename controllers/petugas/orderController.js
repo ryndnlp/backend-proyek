@@ -219,7 +219,9 @@ const confirmPayment = async (req, res) => {
       _id: orderId,
     }).populate("memberId");
 
-    if (paidAmount === price) {
+    const sumPrice = price.pickUpPrice - price.voucherPrice - price.trashPrice;
+
+    if (paidAmount === sumPrice) {
       const err = {
         name: "OrderPaid",
         message: "Order is already paid",
@@ -233,13 +235,13 @@ const confirmPayment = async (req, res) => {
 
     await User.findOneAndUpdate(
       { _id: ObjectId(memberId) },
-      { $set: { point: currentPoint + Math.floor(price / 10) } },
+      { $set: { point: currentPoint + Math.floor(sumPrice / 10) } },
       { returnOriginal: false }
     );
 
     const result = await Order.findOneAndUpdate(
       { _id: orderId },
-      { $set: { paidAmount: price } },
+      { $set: { paidAmount: sumPrice } },
       { returnOriginal: false }
     );
 

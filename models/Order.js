@@ -52,6 +52,21 @@ const TrashDetailSchema = new Schema(
   { _id: false }
 );
 
+const PriceSchema = new Schema(
+  {
+    trashPrice: {
+      type: Number,
+    },
+    voucherPrice: {
+      type: Number,
+    },
+    pickUpPrice: {
+      type: Number,
+    },
+  },
+  { _id: false }
+);
+
 const OrderSchema = new Schema(
   {
     orderStatus: {
@@ -79,8 +94,7 @@ const OrderSchema = new Schema(
       },
     ],
     price: {
-      type: Number,
-      required: true,
+      type: PriceSchema,
     },
     orderDate: {
       type: Date,
