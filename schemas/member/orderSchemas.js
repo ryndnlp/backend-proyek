@@ -12,6 +12,12 @@ const addressSchema = Joi.object({
   coordinate: coordinateSchema,
 }).required();
 
+const priceSchema = Joi.object({
+  trashPrice: Joi.number().required(),
+  voucherPrice: Joi.number().required(),
+  pickUpPrice: Joi.number().required(),
+});
+
 const trashDetailSchema = Joi.object({
   type: Joi.string().required(),
   category: Joi.number().valid(0, 1, 2, 3, 4, 5, 6).required(),
@@ -20,7 +26,7 @@ const trashDetailSchema = Joi.object({
 const createOrderSchema = Joi.object({
   address: addressSchema,
   trashDetail: Joi.array().items(trashDetailSchema).required().min(1),
-  price: Joi.number().required(),
+  price: priceSchema,
 });
 
 const listOrderSchema = Joi.object({

@@ -27,7 +27,7 @@ const createOrder = async (req, res) => {
       memberName,
       memberPhone,
       orderStatus: "UNASSIGNED",
-      paidAmount: 0,
+      paidAmount: -1,
     });
     const response = {
       code: 200,
