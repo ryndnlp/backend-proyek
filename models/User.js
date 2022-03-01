@@ -70,6 +70,9 @@ const UserSchema = new Schema(
     email: {
       type: String,
     },
+    photoUrl: {
+      type: String,
+    },
   },
   { versionKey: false, strict: true }
 );

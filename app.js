@@ -53,5 +53,9 @@ app.get("/", async (req, res) => {
 app.use(routes);
 
 app.get("*", async (req, res) => {
-  res.status(404).json("Error 404");
+  const err = {
+    name: "PathNotFound",
+    message: "Invalid Path",
+  };
+  res.status(404).json({ code: 404, error: err });
 });
