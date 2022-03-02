@@ -5,8 +5,21 @@ const dailyTotalWeightSchema = Joi.object({
   endDate: Joi.date().min(Joi.ref("startDate")).required(),
 });
 
-const conclusionSchema = Joi.object({
+const conclusionDashboardSchema = Joi.object({
   currentDate: Joi.date().required(),
 });
 
-module.exports = { dailyTotalWeightSchema, conclusionSchema };
+const dailyTotalPricePerTypeSchema = Joi.object({
+  currentDate: Joi.date().required(),
+});
+
+const dailyTotalPriceSchema = Joi.object({
+  currentDate: Joi.date().required(),
+});
+
+module.exports = {
+  dailyTotalWeightSchema,
+  conclusionDashboardSchema,
+  dailyTotalPricePerTypeSchema,
+  dailyTotalPriceSchema,
+};

@@ -20,6 +20,7 @@ const updateUserSchema = Joi.object({
   address: Joi.array().items(addressSchema),
   deviceToken: Joi.string(),
   email: Joi.string().email({ tlds: { allow: false } }),
+  photoUrl: Joi.string(),
 }).min(1);
 
 module.exports = { updateUserSchema };

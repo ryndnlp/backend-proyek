@@ -2,10 +2,14 @@ const express = require("express");
 const router = express.Router();
 const {
   dailyTotalWeight,
-  conclusion,
+  conclusionDashboard,
+  dailyTotalPricePerType,
+  dailyTotalPrice,
 } = require("../../controllers/admin/summaryController");
 
 router.get("/dailyTotalWeight", dailyTotalWeight);
-router.get("/conclusion", conclusion);
+router.get("/conclusionDashboard", conclusionDashboard);
+router.get("/dailyTotalPricePerType", dailyTotalPricePerType);
+router.get("/dailyTotalPrice", dailyTotalPrice);
 
 module.exports = router;
