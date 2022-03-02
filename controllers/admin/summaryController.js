@@ -24,7 +24,7 @@ const dailyTotalWeight = async (req, res) => {
       {
         $group: {
           _id: {
-            $dateToString: { format: "%d-%m-%Y", date: "$orderDate" },
+            $dateToString: { format: "%m-%d-%Y", date: "$orderDate" },
           },
           sumWeight: { $sum: "$trashDetail.category" },
         },
@@ -81,7 +81,7 @@ const conclusionDashboard = async (req, res) => {
       {
         $group: {
           _id: {
-            $dateToString: { format: "%d-%m-%Y", date: "$orderDate" },
+            $dateToString: { format: "%m-%d-%Y", date: "$orderDate" },
           },
           sumWeight: { $sum: "$trashDetail.category" },
         },
@@ -102,7 +102,7 @@ const conclusionDashboard = async (req, res) => {
       {
         $group: {
           _id: {
-            $dateToString: { format: "%d-%m-%Y", date: "$orderDate" },
+            $dateToString: { format: "%m-%d-%Y", date: "$orderDate" },
           },
           sumWeight: { $sum: "$trashDetail.category" },
         },
@@ -129,7 +129,7 @@ const conclusionDashboard = async (req, res) => {
       {
         $group: {
           _id: {
-            $dateToString: { format: "%d-%m-%Y", date: "$orderDate" },
+            $dateToString: { format: "%m-%d-%Y", date: "$orderDate" },
           },
           sumWeight: { $sum: "$trashDetail.category" },
         },
@@ -344,8 +344,6 @@ const dailyTotalPrice = async (req, res) => {
           : 0,
       0
     );
-
-    console.log(dailyTotalTransaction);
 
     const response = {
       code: 200,
