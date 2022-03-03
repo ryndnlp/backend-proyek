@@ -18,7 +18,7 @@ const updateUserSchema = Joi.object({
   fullName: Joi.string(),
   type: Joi.string().valid("ADMIN", "PETUGAS", "MEMBER"),
   address: Joi.array().items(addressSchema),
-  deviceToken: Joi.string(),
+  deviceToken: Joi.string().allow(""),
   email: Joi.string().email({ tlds: { allow: false } }),
   photoUrl: Joi.string(),
 }).min(1);
