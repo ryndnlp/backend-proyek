@@ -2,14 +2,18 @@ const express = require("express");
 const router = express.Router();
 const {
   dailyTotalWeight,
-  conclusionDashboard,
+  conclusionDashboardTrash,
   dailyTotalPricePerType,
   dailyTotalPrice,
+  countFinishedOrder,
+  conclusionDashboardTransaction,
 } = require("../../controllers/admin/summaryController");
 
 router.get("/dailyTotalWeight", dailyTotalWeight);
-router.get("/conclusionDashboard", conclusionDashboard);
+router.get("/conclusionDashboardTrash", conclusionDashboardTrash);
 router.get("/dailyTotalPricePerType", dailyTotalPricePerType);
 router.get("/dailyTotalPrice", dailyTotalPrice);
+router.get("/countFinishedOrder", countFinishedOrder);
+router.get("/conclusionDashboardTransaction", conclusionDashboardTransaction);
 
 module.exports = router;

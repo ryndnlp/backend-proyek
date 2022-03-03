@@ -5,7 +5,7 @@ const dailyTotalWeightSchema = Joi.object({
   endDate: Joi.date().min(Joi.ref("startDate")).required(),
 });
 
-const conclusionDashboardSchema = Joi.object({
+const conclusionDashboardTrashSchema = Joi.object({
   currentDate: Joi.date().required(),
 });
 
@@ -17,9 +17,20 @@ const dailyTotalPriceSchema = Joi.object({
   currentDate: Joi.date().required(),
 });
 
+const countFinishedOrderSchema = Joi.object({
+  startDate: Joi.date().required(),
+  endDate: Joi.date().min(Joi.ref("startDate")).required(),
+});
+
+const conclusionDashboardTransactionSchema = Joi.object({
+  currentDate: Joi.date().required(),
+});
+
 module.exports = {
   dailyTotalWeightSchema,
-  conclusionDashboardSchema,
+  conclusionDashboardTrashSchema,
   dailyTotalPricePerTypeSchema,
   dailyTotalPriceSchema,
+  countFinishedOrderSchema,
+  conclusionDashboardTransactionSchema,
 };
