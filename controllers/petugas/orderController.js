@@ -99,15 +99,15 @@ const updateOrderStatus = async (req, res) => {
 
         await Notification.create(notification);
 
-        // sendNotification(
-        //   PETUGAS_STARTED.title,
-        //   templateFunc(PETUGAS_STARTED.body, {
-        //     orderDate: moment(orderDate).format("dddd, DD MMMM YYYY"),
-        //   }),
-        //   "PETUGAS_STARTED",
-        //   deviceToken,
-        //   { orderId }
-        // );
+        await sendNotification(
+          PETUGAS_STARTED.title,
+          templateFunc(PETUGAS_STARTED.body, {
+            orderDate: moment(orderDate).format("dddd, DD MMMM YYYY"),
+          }),
+          "PETUGAS_STARTED",
+          deviceToken,
+          { orderId }
+        );
         break;
       }
       case "FINISH": {
@@ -119,13 +119,13 @@ const updateOrderStatus = async (req, res) => {
 
         await Notification.create(notification);
 
-        // sendNotification(
-        //   PETUGAS_ARRIVED.title,
-        //   PETUGAS_ARRIVED.body,
-        //   "PETUGAS_ARRIVED",
-        //   deviceToken,
-        //   { orderId }
-        // );
+        await sendNotification(
+          PETUGAS_ARRIVED.title,
+          PETUGAS_ARRIVED.body,
+          "PETUGAS_ARRIVED",
+          deviceToken,
+          { orderId }
+        );
         break;
       }
     }
@@ -252,13 +252,13 @@ const confirmPayment = async (req, res) => {
 
     await Notification.create(notification);
 
-    // sendNotification(
-    //   PAYMENT_COMPLETE.title,
-    //   PAYMENT_COMPLETE.body,
-    //   "PAYMENT_COMPLETE",
-    //   deviceToken,
-    //   { orderId }
-    // );
+    await sendNotification(
+      PAYMENT_COMPLETE.title,
+      PAYMENT_COMPLETE.body,
+      "PAYMENT_COMPLETE",
+      deviceToken,
+      { orderId }
+    );
 
     const response = {
       code: 200,

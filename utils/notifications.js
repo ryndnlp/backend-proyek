@@ -7,6 +7,7 @@ const sendNotification = async (
   deviceTokens, // Array of strings
   payloadData // object
 ) => {
+  if (!deviceTokens || deviceTokens.length === 0) return;
   const sendPushNotifProm = admin
     .messaging()
     .sendToDevice(deviceTokens, {

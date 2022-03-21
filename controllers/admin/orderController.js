@@ -74,7 +74,7 @@ const assignOrder = async (req, res) => {
 
     await Notification.create(notification);
 
-    sendNotification(
+    await sendNotification(
       NEW_ORDER.title,
       NEW_ORDER.body,
       "NEW_ORDER",
